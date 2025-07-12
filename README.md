@@ -7,7 +7,7 @@ The one that already confirmed with P'Koo is GA4-bus.ts
 Its worked properly but lack of abstraction and can be improve.
 
 To use GA4-bus.ts
-1. Place GA4-bus.ts inside /src/lib/core
+1. Place GA4-bus.ts inside /src/lib/core which should alreafy have gtag.ts 
 2. import { trackCustomEvent } from '$lib/core/ga4-bus.ts.txt' to a file of event you're working with.
 3. Use function trackCustomEvent at the same place that you've already define gtagEvent.
 4. For example
