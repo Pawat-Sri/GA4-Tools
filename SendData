@@ -1,0 +1,36 @@
+import { MessageBus } from "@bull-shark/tdh-lib-mason/message-bus";
+import { gtagEvent } from "$lib/core/gtag";
+
+// Create GA4 event message type
+type ga4EventMessage = {
+    type: "ga4_event";
+    eventName: string;
+    eventData: Record<string, any>;
+};
+
+// Create GA4 event channel
+const ga4Channel = new MessageBus<ga4EventMessage>();
+
+const dev = true; // Set to true for development mode
+
+ga4Channel.subscribe((message) => { 
+    if (dev === true) {
+        console.log(`[GA4] Event dispatched: ${message.eventName}`, message.eventData);
+    }
+    gtagEvent(message.eventName, message.eventData);
+});
+
+function toGA4(eventName: string, params: Record<string, any> = {}) {
+    ga4Channel.dispatch({
+        type: "ga4_event",
+        eventName,
+        eventData: {
+            ...params,
+            module: "NHSO",
+            event_ts: Date.now(),
+        }
+    })}
+
+export const sendData = {
+    toGA4
+};
